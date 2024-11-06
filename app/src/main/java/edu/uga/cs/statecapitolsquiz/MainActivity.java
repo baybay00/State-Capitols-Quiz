@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(6);
         pager.setVisibility(View.VISIBLE);
-        pager.setCurrentItem(0);
+        pager.setCurrentItem(0, false);
     }
 }
 
