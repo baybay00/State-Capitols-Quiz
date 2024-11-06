@@ -60,12 +60,11 @@ public class StateCapitolsQuizFragment extends Fragment {
             if (selected.getText().equals("Option 1")) {
                 score++; // Increase score when correct answer is selected
             }
-
-            ViewPager2 pager = getActivity().findViewById(R.id.pager);
             if (pager != null && pager.getAdapter() != null) {
-                pager.setCurrentItem(checkedId);
+                pager.setUserInputEnabled(true);
+                pager.setCurrentItem(pager.getCurrentItem() + 1, true);
                 StateCapitolsPageAdapter adapter = (StateCapitolsPageAdapter) pager.getAdapter();
-                adapter.updateScore(score);  // Update the score in the adapter
+                if(adapter != null) adapter.updateScore(score);  // Update the score in the adapter
             }
         });
     }

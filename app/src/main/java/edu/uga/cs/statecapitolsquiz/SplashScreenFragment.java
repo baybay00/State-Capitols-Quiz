@@ -56,23 +56,14 @@ public class SplashScreenFragment extends Fragment {
                 startPastQuizzes();
             }
         });
-        pager = view.findViewById(R.id.pager);
         return view;
     }
 
     private void startQuiz() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new StateCapitolsQuizFragment());
-        transaction.addToBackStack(null);
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.hide(this);
         transaction.commit();
-        StateCapitolsQuizFragment quizFragment = new StateCapitolsQuizFragment();
-        quizFragment.setPager(pager);
-        if (pager != null) {
-            StateCapitolsPageAdapter adapter = new StateCapitolsPageAdapter(getParentFragmentManager(), getLifecycle());
-            pager.setAdapter(adapter);
-            pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-            pager.setOffscreenPageLimit(3);
-        }
+        ((MainActivity) getActivity()).startQuiz();
     }
     public void startLeaderboard() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

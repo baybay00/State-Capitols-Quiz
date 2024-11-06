@@ -1,6 +1,8 @@
 package edu.uga.cs.statecapitolsquiz;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,6 +21,7 @@ public class StateCapitolsPageAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         // Pass the score dynamically through the arguments of each fragment
+        Log.d("StateCapitolsPageAdapter", "createFragment: + " + position + " " + score);
         return StateCapitolsQuizFragment.newInstance(position, score);
     }
 
