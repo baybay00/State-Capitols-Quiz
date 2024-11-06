@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class SplashScreenFragment extends Fragment {
     private Button leaderboardButton;
     private Button helpButton;
     private Button pastQuizzesButton;
+    private ViewPager2 pager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,14 +56,23 @@ public class SplashScreenFragment extends Fragment {
                 startPastQuizzes();
             }
         });
+        pager = view.findViewById(R.id.pager);
         return view;
     }
 
     private void startQuiz() {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new StateCapitolsQuizFragment());
         transaction.addToBackStack(null);
         transaction.commit();
+        StateCapitolsQuizFragment quizFragment = new StateCapitolsQuizFragment();
+        quizFragment.setPager(pager);
+        if (pager != null) {
+            StateCapitolsPageAdapter adapter = new StateCapitolsPageAdapter(getParentFragmentManager(), getLifecycle());
+            pager.setAdapter(adapter);
+            pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+            pager.setOffscreenPageLimit(3);
+        }
     }
     public void startLeaderboard() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -79,5 +91,8 @@ public class SplashScreenFragment extends Fragment {
         transaction.replace(R.id.fragment_container, new PastQuizzesFragment());
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+    public ViewPager2 getPager() {
+        return pager;
     }
 }

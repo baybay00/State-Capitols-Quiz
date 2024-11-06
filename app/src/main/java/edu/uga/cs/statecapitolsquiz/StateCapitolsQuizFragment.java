@@ -1,37 +1,38 @@
 package edu.uga.cs.statecapitolsquiz;
 
 import android.os.Bundle;
-
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StateCapitolsQuizFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StateCapitolsQuizFragment extends Fragment {
 
-    private int qNum; //which question number to display
+    private int qNum = 0; // Question number to display
+    private int score = 0; // Current score
     private ViewPager2 pager;
 
     public StateCapitolsQuizFragment() {
         // Required empty public constructor
     }
 
-    public static StateCapitolsQuizFragment newInstance(int qNum) {
+    public static StateCapitolsQuizFragment newInstance(int qNum, int score) {
         StateCapitolsQuizFragment fragment = new StateCapitolsQuizFragment();
         Bundle args = new Bundle();
         args.putInt("qNum", qNum);
+        args.putInt("score", score);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setPager(ViewPager2 pager)
+    {
+        this.pager = pager;
     }
 
     @Override
@@ -39,28 +40,33 @@ public class StateCapitolsQuizFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             qNum = getArguments().getInt("qNum");
+            score = getArguments().getInt("score");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_state_capitols_quiz, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        pager = view.findViewById(R.id.viewpager);
-        StateCapitolsPageAdapter adapter = new StateCapitolsPageAdapter(getChildFragmentManager(),getViewLifecycleOwner().getLifecycle());
-        pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        pager.setAdapter(adapter);
+        // RadioGroup listener for answer selection
+        RadioGroup rg = view.findViewById(R.id.rg);
+        rg.setOnCheckedChangeListener((group, checkedId) -> { //will fix this to track only when page is changed to ensure correct score
+            RadioButton selected = view.findViewById(checkedId);
+            if (selected.getText().equals("Option 1")) {
+                score++; // Increase score when correct answer is selected
+            }
 
-        TextView question = view.findViewById(R.id.question);
-        Button answer1 = view.findViewById(R.id.answer1);
-        Button answer2 = view.findViewById(R.id.answer2);
-        Button answer3 = view.findViewById(R.id.answer3);
+            ViewPager2 pager = getActivity().findViewById(R.id.pager);
+            if (pager != null && pager.getAdapter() != null) {
+                pager.setCurrentItem(checkedId);
+                StateCapitolsPageAdapter adapter = (StateCapitolsPageAdapter) pager.getAdapter();
+                adapter.updateScore(score);  // Update the score in the adapter
+            }
+        });
     }
 }

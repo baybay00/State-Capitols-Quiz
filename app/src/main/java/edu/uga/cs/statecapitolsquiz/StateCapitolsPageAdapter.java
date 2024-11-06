@@ -1,13 +1,16 @@
 package edu.uga.cs.statecapitolsquiz;
 
+import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class StateCapitolsPageAdapter extends FragmentStateAdapter
-{
+public class StateCapitolsPageAdapter extends FragmentStateAdapter {
+
+    private int score = 0; // Current score
+
     public StateCapitolsPageAdapter(@NonNull FragmentManager fragmentManager, Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
@@ -15,11 +18,20 @@ public class StateCapitolsPageAdapter extends FragmentStateAdapter
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return StateCapitolsQuizFragment.newInstance(position);
+        // Pass the score dynamically through the arguments of each fragment
+        return StateCapitolsQuizFragment.newInstance(position, score);
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 7; // 6 questions + result page
+    }
+
+    public void updateScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

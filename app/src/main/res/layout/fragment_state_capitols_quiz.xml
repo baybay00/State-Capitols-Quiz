@@ -7,44 +7,52 @@
     android:layout_height="match_parent"
     tools:context=".StateCapitolsQuizFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="question"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
 
-        <TextView
-            android:id="@+id/question"
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8">
+
+        <RadioButton
+            android:id="@+id/rb1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Question"
-            android:textSize="32sp" />
+            android:padding="30dp"
+            android:text="Option 1"
+            android:textSize="24dp" />
 
-        <Button
-            android:id="@+id/answer1"
-            android:layout_width="0dp"
+        <RadioButton
+            android:id="@+id/rb2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Answer 1"
-            app:layout_constraintWidth_percent="0.8" />
+            android:padding="30dp"
+            android:text="Option 2"
+            android:textSize="24dp" />
 
-        <Button
-            android:id="@+id/answer2"
-            android:layout_width="0dp"
+        <RadioButton
+            android:id="@+id/rb3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Answer 2"
-            app:layout_constraintWidth_percent="0.8" />
-
-        <Button
-            android:id="@+id/answer3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Answer 3"
-            app:layout_constraintWidth_percent="0.8" />
-    </androidx.viewpager2.widget.ViewPager2>
+            android:padding="30dp"
+            android:text="Option 3"
+            android:textSize="24dp" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
