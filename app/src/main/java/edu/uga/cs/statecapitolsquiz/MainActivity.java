@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import edu.uga.cs.statecapitolsquiz.db.stateCSV.StatesHelper;
+import edu.uga.cs.statecapitolsquiz.task.loadCSVTask;
+
 public class MainActivity extends AppCompatActivity {
     private ViewPager2 pager;
 
@@ -32,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.fragment_container, new SplashScreenFragment());
             transaction.commit();
         }
+        //testing db creation
+        new loadCSVTask(this).execute();
+
+
     }
 
     public void startQuiz()
