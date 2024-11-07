@@ -1,6 +1,7 @@
 package edu.uga.cs.statecapitolsquiz;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import edu.uga.cs.statecapitolsquiz.db.stateCSV.StatesHelper;
+import edu.uga.cs.statecapitolsquiz.task.grabStateByIdTask;
 import edu.uga.cs.statecapitolsquiz.task.loadCSVTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +38,16 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
         //testing db creation
-        new loadCSVTask(this).execute();
+        StatesHelper statesHelper = new StatesHelper(this);
+        if (statesHelper.isTableEmpty()) {
+            new loadCSVTask(this).execute();
+        } else {
+            Log.d("CSVDatabase", "States and capitals already exist in the database.");
+
+        }
+
+        //grab id
+        new grabStateByIdTask(this, 51).execute();
 
 
     }

@@ -30,6 +30,8 @@ public class loadCSVTask extends AsyncTask<Void, Void> {
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             String line;
+            //skip first
+            reader.readLine();
             db.beginTransaction();
             try {
                 while ((line = reader.readLine()) != null) {

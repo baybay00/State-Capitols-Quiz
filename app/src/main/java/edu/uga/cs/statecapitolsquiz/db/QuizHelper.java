@@ -44,6 +44,8 @@ public class QuizHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZZES);
         onCreate(db);
     }
+
+
 }
 
 
