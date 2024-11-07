@@ -4,12 +4,19 @@ import java.util.Date;
 
 public class Quiz {
     private long id;
-    private Date date;
+    private String date;
     private String time;
     private int result;
 
-    public Quiz(long id, Date date, String time, int result) {
+    public Quiz(long id, String date, String time, int result) {
         this.id = id;
+        this.date = date;
+        this.time = time;
+        this.result = result;
+    }
+
+    public Quiz(String date, String time, int result) {
+
         this.date = date;
         this.time = time;
         this.result = result;
@@ -25,11 +32,11 @@ public class Quiz {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -47,5 +54,15 @@ public class Quiz {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", result=" + result +
+                '}';
     }
 }

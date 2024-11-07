@@ -73,11 +73,9 @@ public class ApiClient {
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(QuizHelper.COLUMN_TIME));
                 int result = cursor.getInt(cursor.getColumnIndexOrThrow(QuizHelper.COLUMN_RESULT));
 
-                // Parse date if necessary; assuming date is stored as a string
-                Date date = new Date(dateStr);  // Adjust parsing if needed
 
                 // Create a new Quiz object and add it to the list
-                Quiz quiz = new Quiz(id, date, time, result);
+                Quiz quiz = new Quiz(id, dateStr, time, result);
                 quizzes.add(quiz);
             }
         } finally {

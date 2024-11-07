@@ -12,9 +12,19 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.uga.cs.statecapitolsquiz.db.QuizHelper;
+import edu.uga.cs.statecapitolsquiz.db.models.Quiz;
 import edu.uga.cs.statecapitolsquiz.db.stateCSV.StatesHelper;
-import edu.uga.cs.statecapitolsquiz.task.grabStateByIdTask;
-import edu.uga.cs.statecapitolsquiz.task.loadCSVTask;
+import edu.uga.cs.statecapitolsquiz.task.CreateQuizTableTask;
+import edu.uga.cs.statecapitolsquiz.task.CreateQuizTask;
+import edu.uga.cs.statecapitolsquiz.task.GrabStateByIdTask;
+import edu.uga.cs.statecapitolsquiz.task.LoadCSVTask;
+import edu.uga.cs.statecapitolsquiz.task.ShowAllQuizTask;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager2 pager;
@@ -39,15 +49,42 @@ public class MainActivity extends AppCompatActivity {
         }
         //testing db creation
         StatesHelper statesHelper = new StatesHelper(this);
+        QuizHelper quizHelper = new QuizHelper(this);
         if (statesHelper.isTableEmpty()) {
-            new loadCSVTask(this).execute();
+            new LoadCSVTask(this).execute();
         } else {
             Log.d("CSVDatabase", "States and capitals already exist in the database.");
 
         }
 
-        //grab id
-        new grabStateByIdTask(this, 51).execute();
+        //grab id randomize for the questions
+        String[] stateCapital = statesHelper.getStateAndCapitalById(10);
+
+        for (String e: stateCapital)
+            Log.d("Test", e);
+
+        //testing quiz
+        if (quizHelper.isTableEmpty()){
+            new CreateQuizTableTask(this).execute();
+        } else {
+            Log.d("CSVDatabase", "States and capitals already exist in the database.");
+        }
+        //find ways to create date/time as strings and the result is how much is correct the ids
+        // are sorted in an order that automatically accounts for time.
+        Quiz testQuiz = new Quiz("October", "12",4);
+
+        //put quiz objext into the method
+        new CreateQuizTask(this, testQuiz).execute();
+
+        //did not know how to make the gets async
+        List<Quiz> quizList = quizHelper.getAllQuizzes();
+
+        for (Quiz e: quizList)
+            Log.d("Tester", e.toString());
+
+
+
+
 
 
     }

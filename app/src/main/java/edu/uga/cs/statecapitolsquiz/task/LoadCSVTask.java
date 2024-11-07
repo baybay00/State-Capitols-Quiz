@@ -13,11 +13,11 @@ import java.io.InputStreamReader;
 
 import edu.uga.cs.statecapitolsquiz.db.stateCSV.StatesHelper;
 
-public class loadCSVTask extends AsyncTask<Void, Void> {
+public class LoadCSVTask extends AsyncTask<Void, Void> {
 
     private final Context context;
 
-    public loadCSVTask(Context context) {
+    public LoadCSVTask(Context context) {
         this.context = context;
     }
 

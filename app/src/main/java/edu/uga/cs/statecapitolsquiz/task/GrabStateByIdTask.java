@@ -2,18 +2,17 @@ package edu.uga.cs.statecapitolsquiz.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import edu.uga.cs.statecapitolsquiz.db.stateCSV.StatesHelper;
 
-public class grabStateByIdTask extends AsyncTask<Integer, Void, String[]> {
+public class GrabStateByIdTask extends AsyncTask<Integer, Void, String[]> {
 
     private final Context context;
     private int id;
 
     // Constructor to pass the context and ID
-    public grabStateByIdTask(Context context, int id) {
+    public GrabStateByIdTask(Context context, int id) {
         this.context = context;
         this.id = id;
     }
