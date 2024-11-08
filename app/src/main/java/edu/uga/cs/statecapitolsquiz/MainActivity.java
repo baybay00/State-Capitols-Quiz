@@ -12,9 +12,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.uga.cs.statecapitolsquiz.db.QuizHelper;
@@ -69,12 +72,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("CSVDatabase", "States and capitals already exist in the database.");
         }
-        //find ways to create date/time as strings and the result is how much is correct the ids
-        // are sorted in an order that automatically accounts for time.
-        Quiz testQuiz = new Quiz("October", "12",4);
-
-        //put quiz objext into the method
-        new CreateQuizTask(this, testQuiz).execute();
+//        //find ways to create date/time as strings and the result is how much is correct the ids
+//        // are sorted in an order that automatically accounts for time.
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd");
+//        String formattedDate = dateFormat.format(calendar.getTime());
+//        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+//        String formattedTime = timeFormat.format(calendar.getTime());
+//
+//        Quiz testQuiz = new Quiz(formattedDate, formattedTime,((StateCapitolsPageAdapter) pager.getAdapter()).getScore());
+//
+//        //put quiz objext into the method
+//        new CreateQuizTask(this, testQuiz).execute();
 
         //did not know how to make the gets async
         List<Quiz> quizList = quizHelper.getAllQuizzes();

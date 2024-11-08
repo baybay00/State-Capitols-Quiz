@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.List;
+
+import edu.uga.cs.statecapitolsquiz.db.QuizHelper;
+import edu.uga.cs.statecapitolsquiz.db.models.Quiz;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -36,42 +41,51 @@ public class PastQuizzesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_past_quizzes, container, false);
 
-        TableLayout past_quizzes = view.findViewById(R.id.past_quizzes_table);
+        // Reference to TableLayout
+        TableLayout pastQuizzesTable = view.findViewById(R.id.past_quizzes_table);
 
-        String[][] mockData = { //replace with actual data
-                {"1", "6", "2024-11-06"},
-                {"2", "6", "2024-11-05"},
-                {"3", "6", "2024-11-04"},
-        };
+        // Fetch quiz data
+        QuizHelper quizHelper = new QuizHelper(getContext());
+        List<Quiz> quizzes = quizHelper.getAllQuizzes();
 
-        for (String[] row : mockData) {
-            TableRow tableRow = new TableRow(getActivity());
+        // Check if quizzes are available
+        if (quizzes != null && !quizzes.isEmpty()) {
+            for (Quiz quiz : quizzes) {
+                TableRow tableRow = new TableRow(getActivity());
 
-            // Game ID column
-            TextView id = new TextView(getActivity());
-            id.setText(row[0]);
-            id.setPadding(8, 8, 8, 8);
-            id.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            id.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-            tableRow.addView(id);
+                // Create Game ID column
+                TextView id = new TextView(getActivity());
+                id.setText(String.valueOf(quiz.getId())); // Quiz ID
+                id.setPadding(8, 8, 8, 8);
+                id.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                id.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                tableRow.addView(id);
 
-            // Score column
-            TextView score = new TextView(getActivity());
-            score.setText(row[1]);
-            score.setPadding(8, 8, 8, 8);
-            score.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            score.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-            tableRow.addView(score);
+                // Create Score column
+                TextView score = new TextView(getActivity());
+                score.setText(String.valueOf(quiz.getResult())); // Quiz result
+                score.setPadding(8, 8, 8, 8);
+                score.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                score.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                tableRow.addView(score);
 
-            // Date column
-            TextView date = new TextView(getActivity());
-            date.setText(row[2]);
-            date.setPadding(8, 8, 8, 8);
-            date.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            date.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-            tableRow.addView(date);
+                // Create Date column
+                TextView date = new TextView(getActivity());
+                date.setText(quiz.getDate()); // Quiz date
+                date.setPadding(8, 8, 8, 8);
+                date.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                date.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                tableRow.addView(date);
 
-            past_quizzes.addView(tableRow);
+                // Add the row to the TableLayout
+                pastQuizzesTable.addView(tableRow);
+            }
+        } else {
+            // Handle case where there are no past quizzes
+            TextView noData = new TextView(getActivity());
+            noData.setText("No past quizzes available.");
+            noData.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            pastQuizzesTable.addView(noData);
         }
 
         return view;

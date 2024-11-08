@@ -93,6 +93,27 @@ public class QuizHelper extends SQLiteOpenHelper {
         return quizList;
     }
 
+    public List<Quiz> getHighScores() {
+        List<Quiz> quizList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_QUIZZES + " ORDER BY " + COLUMN_RESULT + " DESC LIMIT 10";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
+                @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME));
+                @SuppressLint("Range") int result = cursor.getInt(cursor.getColumnIndex(COLUMN_RESULT));
+
+                Quiz quiz = new Quiz(id, date, time, result);
+                quizList.add(quiz);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return quizList;
+    }
+
     // Get a quiz by ID
     //overhead in case you need it
     public Quiz getQuizById(int id) {

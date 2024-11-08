@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +20,11 @@ public class SplashScreenFragment extends Fragment {
     private Button leaderboardButton;
     private Button helpButton;
     private Button pastQuizzesButton;
-    private ViewPager2 pager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash_screen, container, false);
         playButton = view.findViewById(R.id.play_button);
@@ -82,8 +81,5 @@ public class SplashScreenFragment extends Fragment {
         transaction.replace(R.id.fragment_container, new PastQuizzesFragment());
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-    public ViewPager2 getPager() {
-        return pager;
     }
 }

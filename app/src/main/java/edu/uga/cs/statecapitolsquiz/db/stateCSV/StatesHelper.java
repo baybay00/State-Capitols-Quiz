@@ -70,6 +70,7 @@ public class StatesHelper extends SQLiteOpenHelper {
             stateAndCapital[1] = capital;
             cursor.close();
         }
+        Log.d("StateData", "State: " + stateAndCapital[0] + ", Capital: " + stateAndCapital[1]);
 
         return stateAndCapital; // Return the result or null if not found
 }
@@ -82,6 +83,40 @@ public class StatesHelper extends SQLiteOpenHelper {
         cursor.close();
         return count == 0;  // If count is 0, the table is empty
     }
+
+    public String[] getRandomIncorrectCapitals(String correctAnswer) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Query to get two random distinct incorrect capitals (excluding the correct one)
+        String query = "SELECT DISTINCT " + COLUMN_CAPITAL_NAME +
+                " FROM " + TABLE_STATES +
+                " WHERE " + COLUMN_CAPITAL_NAME + " != ?" + // Exclude the correct capital
+                " ORDER BY RANDOM() LIMIT 2"; // Limit to two random results
+
+        Cursor cursor = db.rawQuery(query, new String[]{correctAnswer});
+
+        String[] incorrectCapitals = new String[2];
+
+        int i = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                incorrectCapitals[i] = cursor.getString(cursor.getColumnIndex(COLUMN_CAPITAL_NAME));
+                i++;
+            } while (cursor.moveToNext() && i < 2); // Ensure we get two distinct incorrect answers
+
+            cursor.close();
+        }
+
+        // If there are fewer than 2 incorrect capitals, you can handle the fallback here,
+        // for example by repeating the same one, adding a placeholder, etc.
+        if (incorrectCapitals[1] == null) {
+            // Handle the fallback, e.g., duplicate the first answer or return a default value
+            incorrectCapitals[1] = incorrectCapitals[0];
+        }
+
+        return incorrectCapitals;
+    }
+
 
 
 }

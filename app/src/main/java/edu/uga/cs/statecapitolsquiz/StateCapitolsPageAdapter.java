@@ -12,7 +12,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class StateCapitolsPageAdapter extends FragmentStateAdapter {
 
     private int score = 0; // Current score
-    private StateCapitolsQuizFragment lastFragment;
 
     public StateCapitolsPageAdapter(@NonNull FragmentManager fragmentManager, Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -21,12 +20,7 @@ public class StateCapitolsPageAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        StateCapitolsQuizFragment fragment = StateCapitolsQuizFragment.newInstance(position, score);
-        if(position == getItemCount() - 1) {
-            lastFragment = fragment;
-            return lastFragment;
-        }
-        return fragment;
+        return StateCapitolsQuizFragment.newInstance(position+1, score);
     }
 
     @Override
@@ -36,13 +30,14 @@ public class StateCapitolsPageAdapter extends FragmentStateAdapter {
 
     public void incrementScore() {
         score++;
-        if(lastFragment != null) {
-            lastFragment.setFinalScore(score);
-        }
+
     }
 
     public int getScore() {
         return score;
     }
 
+    public void setScore(int score){
+        this.score = score;
+    }
 }
