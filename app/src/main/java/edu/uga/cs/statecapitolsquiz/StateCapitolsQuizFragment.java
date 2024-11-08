@@ -77,6 +77,12 @@ public class StateCapitolsQuizFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if(savedInstanceState != null)
+        {
+            qNum = savedInstanceState.getInt("qNum", 0);
+            score = savedInstanceState.getInt("score", 0);
+        }
+
         // Initialize UI elements
         try {
             pager = getActivity().findViewById(R.id.pager);
@@ -86,6 +92,7 @@ public class StateCapitolsQuizFragment extends Fragment {
                 Log.e("StateCapitolsQuizFragment", "Pager adapter is not of type StateCapitolsPageAdapter!");
             }
 
+            //get references to ui elements
             question = view.findViewById(R.id.question);
             rg = view.findViewById(R.id.rg);
             mainMenu = view.findViewById(R.id.menu);
@@ -129,6 +136,9 @@ public class StateCapitolsQuizFragment extends Fragment {
     }
 
 
+    /**
+     * Displays the final score hides the quiz screen and saves the quiz results to the database
+     */
     private void displayFinalScore() {
         if (qNum == 6) {
             int finalScore = ((StateCapitolsPageAdapter) pager.getAdapter()).getScore();
@@ -154,6 +164,9 @@ public class StateCapitolsQuizFragment extends Fragment {
         }
     }
 
+    /**
+     * Hides the score screen
+     */
     public void hideScoreScreen()
     {
         pager.setVisibility(View.GONE);
@@ -163,6 +176,10 @@ public class StateCapitolsQuizFragment extends Fragment {
         pastQuizzes.setVisibility(View.GONE);
     }
 
+    /**
+     * Navigates to the specified fragment
+     * @param fragment The fragment to navigate to
+     */
     public void navigate(Fragment fragment)
     {
         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
@@ -170,6 +187,9 @@ public class StateCapitolsQuizFragment extends Fragment {
         ft.commit();
     }
 
+    /**
+     * Loads the question data from the database
+     */
     public void loadQuestionData() {
         Random random = new Random();
         int num = random.nextInt(50) + 1;
@@ -203,33 +223,9 @@ public class StateCapitolsQuizFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-        // Get current score from the adapter
-        int savedScore = ((StateCapitolsPageAdapter) pager.getAdapter()).getScore();
-        int savedQNum = qNum;
-
-        // Save the state to SharedPreferences
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("quiz_state", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("score", savedScore);
-        editor.putInt("qNum", savedQNum);
-        editor.apply();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("qNum", qNum);
+        outState.putInt("score", score);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // Retrieve saved state from SharedPreferences
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("quiz_state", Context.MODE_PRIVATE);
-        int restoredScore = sharedPref.getInt("score", 0);  // Default to 0 if not found
-        int restoredQNum = sharedPref.getInt("qNum", 0);    // Default to 0 if not found
-
-        // Set the restored score and question number
-        ((StateCapitolsPageAdapter) pager.getAdapter()).setScore(restoredScore);
-        qNum = restoredQNum;
-    }
-
 }
