@@ -41,14 +41,11 @@ public class LeaderboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
 
-        // Reference to TableLayout
         TableLayout leaderboard = view.findViewById(R.id.leaderboard);
 
-        // Fetch quiz data
         QuizHelper quizHelper = new QuizHelper(getContext());
         List<Quiz> quizzes = quizHelper.getHighScores();
 
-        // Check if quizzes are available
         if (quizzes != null && !quizzes.isEmpty()) {
             for (Quiz quiz : quizzes) {
                 TableRow tableRow = new TableRow(getActivity());

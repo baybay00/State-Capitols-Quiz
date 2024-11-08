@@ -41,14 +41,12 @@ public class PastQuizzesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_past_quizzes, container, false);
 
-        // Reference to TableLayout
         TableLayout pastQuizzesTable = view.findViewById(R.id.past_quizzes_table);
 
         // Fetch quiz data
         QuizHelper quizHelper = new QuizHelper(getContext());
         List<Quiz> quizzes = quizHelper.getAllQuizzes();
 
-        // Check if quizzes are available
         if (quizzes != null && !quizzes.isEmpty()) {
             for (Quiz quiz : quizzes) {
                 TableRow tableRow = new TableRow(getActivity());
@@ -87,7 +85,6 @@ public class PastQuizzesFragment extends Fragment {
             noData.setGravity(View.TEXT_ALIGNMENT_CENTER);
             pastQuizzesTable.addView(noData);
         }
-
         return view;
     }
 }

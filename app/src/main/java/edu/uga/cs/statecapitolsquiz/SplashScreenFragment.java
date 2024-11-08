@@ -58,24 +58,39 @@ public class SplashScreenFragment extends Fragment {
         return view;
     }
 
+    /**
+     * starts the quiz
+     */
     private void startQuiz() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.hide(this);
         transaction.commit();
         ((MainActivity) getActivity()).startQuiz();
     }
+
+    /**
+     * starts the leaderboard fragment
+     */
     public void startLeaderboard() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new LeaderboardFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    /**
+     * starts the help fragment
+     */
     public void startHelp() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new HelpFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    /**
+     * starts the past quizzes fragment
+     */
     public void startPastQuizzes() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new PastQuizzesFragment());
